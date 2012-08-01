@@ -1,0 +1,48 @@
+{
+  "camera" : {
+    "eye" : [0.0, 0.0, 0.0],
+    "up" : [0.0, 1.0, 0.0],
+    "look_at" : [0.0, 0.0, -1.0],
+    "fovy" : 45,
+    "aspect" : 1.0
+  },
+
+  "output" : {
+    "width" : 512,
+    "height" : 512,
+    "output_filename" : "sphere_test_scene.png"
+  },
+
+  "bounce_depth" : 0,
+
+  "shadow_bias" : 0.0001,
+
+  "lights" : [
+    {
+      "type" : "ambient",
+      "color" : [0.1, 0.1, 0.1]
+    },
+    {
+      "type" : "point",
+      "position" : [1.5, 1.5, -1.0],
+      "color" : [1.0, 1.0, 1.0]
+    }
+  ],
+
+  "objects" : [
+    {
+      "material" : {
+        "ambient" : [0.0, 0.0, 1.0],
+        "diffuse" : [0.0, 0.0, 0.8],
+        "specular" : [1.0, 1.0, 1.0],
+        "mirror" : [0.0, 0.0, 0.0],
+        "shine" : 30
+      },
+      "shape" : {
+        "type" : "sphere",
+        "center" : [0.0, 0.0, -3.0],
+        "radius" : 1.0
+      }
+    }
+  ]
+}
