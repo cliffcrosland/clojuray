@@ -48,7 +48,7 @@
                 reflect-ray (ray/ray-at-point-in-direction
                               int-loc reflect-direction)
                 ; Recursive step
-                reflect-color (trace-ray reflect-ray scene (decr bounce-depth))]
+                reflect-color (trace-ray reflect-ray scene (dec bounce-depth))]
             ; Sum the base color with the reflected color
             (map + base-color (map * reflect-color mirror-reflectance)))
           ; Otherwise, don't bounce. Just use base color of material.
@@ -79,4 +79,4 @@
   ; Render the scene
   (render
     (read-json
-      (slurp (first args))))
+      (slurp (first args)))))

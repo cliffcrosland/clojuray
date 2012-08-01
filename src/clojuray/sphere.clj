@@ -4,7 +4,7 @@
 
 ;; Create sphere intersection hash-map given a ray, a distance t along the
 ;; ray, and a sphere object
-(defn create-sphere-intersection
+(defn create-intersection
   [ray t sphere-object]
   (let [E (ray :start) ;ray start
         D (ray :direction) ;ray direction
@@ -17,7 +17,7 @@
 
 ;; Compute the intersection of the ray with this sphere object
 ;; If there is no intersection, return nil.
-(defn sphere-intersect
+(defn intersect
   [ray sphere-object]
   (let [E (ray :start) ; ray start
         D (ray :direction) ; ray direction
@@ -37,7 +37,7 @@
       ; one solution, create intersection
       (= discriminant 0)
       (let [t (/ (* -1 (V/dot D EminC)) (V/dot D D))]
-        (create-sphere-intersection ray t sphere-object))
+        (create-intersection ray t sphere-object))
       :else ; two solutions, pick closer intersection
       (let [t1 (/ (+ (* -1 (V/dot D EminC))
                      (Math/sqrt discriminant)
@@ -45,4 +45,4 @@
             t2 (/ (- (* -1 (V/dot D EminC))
                      (Math/sqrt discriminant)
                  (V/dot D D)))]
-        (create-sphere-intersection ray (min t1 t2) sphere-object)))))
+        (create-intersection ray (min t1 t2) sphere-object)))))
