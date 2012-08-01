@@ -53,9 +53,3 @@
         right (map + (vecmath/scale (- 1 v) LR) (vecmath/scale v UR))
         ]
     (vec (map + (vecmath/scale (- 1 u) left) (vecmath/scale u right)))))
-
-;; Display the output image of the rendering
-(defn display-output-image
-  [output-image width height]
-  '()
-)
