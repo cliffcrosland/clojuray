@@ -14,7 +14,7 @@
 (require '[clojure.string :as string])
 
 ; import java classes
-(:import '(java.awt Color BufferedImage Dimension) 
+(:import '(java.awt Color BufferedImage Dimension)
          '(javax.swing.JFrame))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -32,7 +32,7 @@
       (let [{[r g b] :color} pixel
             {x :x} pixel
             {y :y} pixel]
-        (.setColor graphics (java.awt.Color. 
+        (.setColor graphics (java.awt.Color.
                               (min (float r) 1.0)
                               (min (float g) 1.0)
                               (min (float b) 1.0)))

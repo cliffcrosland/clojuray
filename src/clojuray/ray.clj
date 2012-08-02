@@ -30,5 +30,5 @@
       ; if there are no intersections, eval to nil
       nil
       ; otherwise, eval to the closest intersection (least distance t
-      ; along ray) 
+      ; along ray)
     (apply min-key :ray-t intersections))))
