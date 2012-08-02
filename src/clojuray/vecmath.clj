@@ -22,3 +22,8 @@
 (defn scale
   [s v]
   (into [] (map #(* % s) v)))
+
+; Magnitude of vector v
+(defn magnitude
+  [v]
+  (Math/sqrt (dot v v)))

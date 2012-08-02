@@ -1,9 +1,7 @@
 (ns clojuray.scene-object)
 
-(require '[clojuray.vecmath :as V])
 (require '[clojuray.sphere :as sphere])
 (require '[clojuray.triangle :as triangle])
-
 
 ;; Compute the intersection of the ray with this object.
 ;; If there is no intersection, eval to nil.
