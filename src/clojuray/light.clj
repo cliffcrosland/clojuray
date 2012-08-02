@@ -3,6 +3,7 @@
 (require '[clojuray.vecmath :as vecmath])
 (require '[clojuray.ray :as ray])
 (require '[clojuray.scene-object :as scene-object])
+(require '[clojuray.debug :as debug])
 
 ;; Direction to the light from the intersection
 (defn dir-to-light-from-location
@@ -22,7 +23,7 @@
 ;; intersection point.
 (defn occluder-exists
   [intersection light objects]
-    (some true? ; if the for form ever generates true, there is an occluder
+    (some true? ; if the for expr ever generates true, there is an occluder
       (for [object objects]
         (let [p (intersection :location)
               int-to-light (dir-to-light-from-location light p)

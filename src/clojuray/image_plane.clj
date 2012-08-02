@@ -31,7 +31,7 @@
   [image-plane x y width height]
   ; Get normalized value of middle of pixel
   (let [u (/ (+ x 0.5) width)
-        v (/ (+ y 0.5) height)
+        v (/ (+ (- height y) 0.5) height)
         LL (get image-plane :LL)
         UL (get image-plane :UL)
         LR (get image-plane :LR)

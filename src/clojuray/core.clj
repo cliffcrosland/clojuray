@@ -8,6 +8,7 @@
 (require '(clojuray [ray :as ray]))
 (require '(clojuray [vecmath :as vecmath]))
 (require '(clojuray [light :as light]))
+(require '(clojuray [scene-object :as scene-object]))
 (require '[clojuray.debug :as debug])
 
 ; import java classes
@@ -29,7 +30,10 @@
       (let [{[r g b] :color} pixel
             {x :x} pixel
             {y :y} pixel]
-        (.setColor graphics (java.awt.Color. (float r) (float g) (float b)))
+        (.setColor graphics (java.awt.Color. 
+                              (min (float r) 1.0)
+                              (min (float g) 1.0)
+                              (min (float b) 1.0)))
         (.drawLine graphics x y x y)))
     (println "Drawing image on screen...")
     (doto (javax.swing.JFrame.)
@@ -81,6 +85,10 @@
         height (reduce get scene [:output :height]) ; pixel height of output
         eye (reduce get scene [:camera :eye]) ; location of eye in scene
         bounce-depth (scene :bounce_depth)] ; number of ray bounce recursions
+    ; define shadow bias. makes it so bouncing rays do not re-intersect with
+    ; object surface.
+    (scene-object/def-shadow-bias (scene :shadow_bias))
+    ; Display output image, tracing rays for all x * y pixels.
     (display-output-image width height
       (for [x (range 0 width)
             y (range 0 height)]

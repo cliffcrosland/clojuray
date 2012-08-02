@@ -44,8 +44,8 @@
       (let [
             t1 (/ (+ (* -1 (vecm/dot D EminC))
                      (Math/sqrt discriminant))
-                 (vecm/dot D D))
+                  (vecm/dot D D))
             t2 (/ (- (* -1 (vecm/dot D EminC))
                      (Math/sqrt discriminant))
-                 (vecm/dot D D))]
+                  (vecm/dot D D))]
         (create-intersection ray (min t1 t2) sphere-object)))))
