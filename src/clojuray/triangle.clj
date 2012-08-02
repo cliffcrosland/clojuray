@@ -66,13 +66,13 @@
       (let [location (map + E (vecm/scale t D))
             ; choose the normal pointing toward the user
             ; triangle sides originating at vertex 3
-            t1 (map - v1 v3)
-            t2 (map - v2 v3)
+            s1 (map - v1 v3)
+            s2 (map - v2 v3)
             V (map - E location)
             V-mag (vecm/magnitude V)
             ; normals, in opposite directions
-            N1 (vecm/cross t1 t2)
-            N2 (vecm/cross t2 t1)
+            N1 (vecm/cross s1 s2)
+            N2 (vecm/cross s2 s1)
             N1-mag (vecm/magnitude N1)
             N2-mag (vecm/magnitude N2)
             ; choose normal with smaller angle
@@ -81,4 +81,5 @@
             normal (vecm/normalize (if (< angle1 angle2) N1 N2))]
         {:location location
          :object triangle-object
+         :ray-t t
          :normal normal}))))

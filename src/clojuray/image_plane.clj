@@ -1,16 +1,7 @@
 (ns clojuray.image-plane)
 
 ; import vecmath functions
-(require '(clojuray [vecmath :as vecmath]))
-
-; TEMPORARY DEBUG MACRO: debug let
-(defmacro dlet [bindings & body]
-  `(let [~@(mapcat (fn [[n v]]
-                     (if (or (vector? n) (map? n))
-                       [n v]
-                       [n v '_ `(println (name '~n) " : " ~v)]))
-                   (partition 2 bindings))]
-     ~@body))
+(require '[clojuray.vecmath :as vecmath])
 
 ;; Construct the corners of an image plane from the scene data
 (defn compute-plane

@@ -7,6 +7,12 @@
 (require '(clojuray [image-plane :as image-plane]))
 (require '(clojuray [ray :as ray]))
 (require '(clojuray [vecmath :as vecmath]))
+(require '(clojuray [light :as light]))
+(require '[clojuray.debug :as debug])
+
+; import java classes
+(:import '(java.awt Color BufferedImage Dimension) 
+         '(javax.swing.JFrame))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Render
@@ -14,10 +20,23 @@
 
 ;; Display output image
 (defn display-output-image
-  [width height output-image]
-  (println "count : output-image")
-  (println (count output-image))
-)
+  [width height rendered-image]
+  (let [image (java.awt.image.BufferedImage.
+               width height java.awt.image.BufferedImage/TYPE_INT_RGB)
+        graphics (.createGraphics image)]
+    (println "Rendering image...")
+    (doseq [pixel rendered-image]
+      (let [{[r g b] :color} pixel
+            {x :x} pixel
+            {y :y} pixel]
+        (.setColor graphics (java.awt.Color. (float r) (float g) (float b)))
+        (.drawLine graphics x y x y)))
+    (println "Drawing image on screen...")
+    (doto (javax.swing.JFrame.)
+      (.add (proxy [javax.swing.JPanel] []
+              (paint [g] (.drawImage g image 0 0 this))))
+      (.setSize (java.awt.Dimension. width height))
+      (.show))))
 
 ;; Trace the ray, computing its color
 (defn trace-ray
@@ -32,7 +51,7 @@
             material (object :material)
             lights (scene :lights)
             mirror-reflectance (material :mirror)
-            base-color (ray/shading intersection ray lights objects)]
+            base-color (light/shading intersection ray lights objects)]
         ; If we should reflect, bounce ray off object, and add reflected
         ; color to base color
         (if (and (> bounce-depth 0) (not= mirror-reflectance [0.0 0.0 0.0]))
@@ -67,7 +86,8 @@
             y (range 0 height)]
         (let [sample-point (image-plane/get-sample-point plane x y width height)
               ray (ray/ray-through-points eye sample-point)]
-          (trace-ray ray scene bounce-depth)))))) ; compute the color of ray
+          {:color (trace-ray ray scene bounce-depth)
+           :x x :y y}))))) ; compute the color of ray, save w/ location
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Main

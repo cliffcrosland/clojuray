@@ -1,6 +1,7 @@
 (ns clojuray.sphere)
 
 (require '[clojuray.vecmath :as vecm])
+(require '[clojuray.debug :as debug])
 
 ;; Create sphere intersection hash-map given a ray, a distance t along the
 ;; ray, and a sphere object
@@ -12,6 +13,7 @@
         location (map + E (vecm/scale t D))] ;intersection loc
     {:location location
      :object sphere-object
+     :ray-t t
      :normal (vecm/normalize (map - location C))}))
 
 
@@ -39,10 +41,11 @@
       (let [t (/ (* -1 (vecm/dot D EminC)) (vecm/dot D D))]
         (create-intersection ray t sphere-object))
       :else ; two solutions, pick closer intersection
-      (let [t1 (/ (+ (* -1 (vecm/dot D EminC))
-                     (Math/sqrt discriminant)
-                 (vecm/dot D D)))
+      (let [
+            t1 (/ (+ (* -1 (vecm/dot D EminC))
+                     (Math/sqrt discriminant))
+                 (vecm/dot D D))
             t2 (/ (- (* -1 (vecm/dot D EminC))
-                     (Math/sqrt discriminant)
-                 (vecm/dot D D)))]
+                     (Math/sqrt discriminant))
+                 (vecm/dot D D))]
         (create-intersection ray (min t1 t2) sphere-object)))))

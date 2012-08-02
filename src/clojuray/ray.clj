@@ -32,9 +32,3 @@
       ; otherwise, eval to the closest intersection (least distance t
       ; along ray) 
     (apply min-key :ray-t intersections))))
-
-;; Compute the color shading for the given intersection and ray, using the
-;; given lights and objects (which might occlude the lights).
-(defn shading
-  [intersection ray lights objects]
-  [0.5 0.5 0.5]) ; TODO: Change gray color to proper shading
