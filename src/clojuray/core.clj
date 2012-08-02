@@ -11,6 +11,8 @@
 (require '(clojuray [scene-object :as scene-object]))
 (require '[clojuray.debug :as debug])
 
+(require '[clojure.string :as string])
+
 ; import java classes
 (:import '(java.awt Color BufferedImage Dimension) 
          '(javax.swing.JFrame))
@@ -108,10 +110,22 @@
 ;; Main
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Remove comment lines from JSON file.
+;; Note: comments are only removed if // are the first two non-whitespace
+;; characters on a line.
+(defn remove-line-cmnts
+  [file-str]
+  (string/join
+    \newline
+    (for [line (string/split-lines file-str)]
+      (if (nil? (re-find #"^//" (string/trim line)))
+        line ; If the first two chars are //, remove line
+        ""))))
+
 ;; Parse the json scene and render it
 (defn -main
   [& args]
   ; Render the scene
   (time
     (render
-      (read-json (slurp (first args))))))
+      (remove-line-cmnts (read-json (slurp (first args)))))))
