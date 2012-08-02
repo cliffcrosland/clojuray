@@ -77,6 +77,14 @@
           ; Otherwise, don't bounce. Just use base color of material.
           base-color)))))
 
+;; Compute the color of the pixel specified by pixel-loc.
+(defn compute-pixel-color
+  [plane eye width height scene bounce-depth pixel-loc]
+  (let [{x :x y :y} pixel-loc
+        sample-point (image-plane/get-sample-point plane x y width height)
+        ray (ray/ray-through-points eye sample-point)]
+    {:color (trace-ray ray scene bounce-depth) :x x :y y}))
+
 ;; Render the scene, computing a color for each ray passing through a pixel.
 (defn render
   [scene]
@@ -84,18 +92,17 @@
         width (reduce get scene [:output :width]) ; pixel width of output
         height (reduce get scene [:output :height]) ; pixel height of output
         eye (reduce get scene [:camera :eye]) ; location of eye in scene
-        bounce-depth (scene :bounce_depth)] ; number of ray bounce recursions
+        bounce-depth (scene :bounce_depth) ; number of ray bounce recursions
+        pixel-list (for [x (range 0 width) y (range 0 height)]
+                    {:x x :y y})] ; pixels to be computed
     ; define shadow bias. makes it so bouncing rays do not re-intersect with
     ; object surface.
     (scene-object/def-shadow-bias (scene :shadow_bias))
     ; Display output image, tracing rays for all x * y pixels.
-    (display-output-image width height
-      (for [x (range 0 width)
-            y (range 0 height)]
-        (let [sample-point (image-plane/get-sample-point plane x y width height)
-              ray (ray/ray-through-points eye sample-point)]
-          {:color (trace-ray ray scene bounce-depth)
-           :x x :y y}))))) ; compute the color of ray, save w/ location
+    (let [image (pmap (partial compute-pixel-color
+                        plane eye width height scene bounce-depth)
+                pixel-list)]
+      (display-output-image width height image))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Main
@@ -105,6 +112,6 @@
 (defn -main
   [& args]
   ; Render the scene
-  (render
-    (read-json
-      (slurp (first args)))))
+  (time
+    (render
+      (read-json (slurp (first args))))))
