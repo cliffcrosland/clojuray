@@ -128,4 +128,4 @@
   ; Render the scene
   (time
     (render
-      (remove-line-cmnts (read-json (slurp (first args)))))))
+      (read-json (remove-line-cmnts (slurp (first args)))))))
