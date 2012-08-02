@@ -1,10 +1,11 @@
 (ns clojuray.triangle)
 
 (require '[clojuray.vecmath :as vecm])
+(require '[clojuray.debug :as debug])
 
 ;; Compute intersection of this triangle with the ray
 (defn intersect
-  [ray triangle-object]
+  [ray triangle-object shadow-bias]
   (let [E (ray :start) ;ray start
         D (ray :direction) ;ray direction
         {{v1 :vertex1
@@ -13,12 +14,12 @@
         ; Compute intersection of ray with triangle.
         ; TODO: link to explanation
         ; triangle side 1
-        side1 (map - v3 v1)
+        side1 (vec (map - v3 v1))
         a (side1 0)
         b (side1 1)
         c (side1 2)
         ; triangle side 2
-        side2 (map - v3 v2)
+        side2 (vec (map - v3 v2))
         d (side2 0)
         e (side2 1)
         f (side2 2)
@@ -27,7 +28,7 @@
         h (D 1)
         i (D 2)
         ; result vector
-        result-vec (map - v3 E)
+        result-vec (vec (map - v3 E))
         j (result-vec 0)
         k (result-vec 1)
         l (result-vec 2)
@@ -41,7 +42,7 @@
                   (+
                      (* f (- (* a k) (* j b)))
                      (* e (- (* j c) (* a l)))
-                     (* d *(- (* b l) (* k c))))
+                     (* d (- (* b l) (* k c))))
                   M))
         ; gamma: if less than 0 or greater than 1, no intersection
         gamma (/
@@ -58,17 +59,18 @@
                  (* l (- (* d h) (* e g))))
                M)]
     (if (or
+          (or (< t shadow-bias) (> t Integer/MAX_VALUE))
           (or (< gamma 0) (> gamma 1))
-          (or (< 0 beta) (> beta (- 1 gamma))))
+          (or (< beta 0) (> beta (- 1 gamma))))
       ; no intersection
       nil
       ; otherwise, compute intersection with normal pointing toward user
       (let [location (map + E (vecm/scale t D))
             ; choose the normal pointing toward the user
             ; triangle sides originating at vertex 3
-            s1 (map - v1 v3)
-            s2 (map - v2 v3)
-            V (map - E location)
+            s1 (vec (map - v1 v3))
+            s2 (vec (map - v2 v3))
+            V (vec (map - E location))
             V-mag (vecm/magnitude V)
             ; normals, in opposite directions
             N1 (vecm/cross s1 s2)
