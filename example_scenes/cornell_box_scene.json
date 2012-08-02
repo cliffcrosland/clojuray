@@ -7,9 +7,9 @@
     "aspect" 1.0
   },
 
-  "output" : {
-    "width" : 512,
-    "height" : 512
+  "output" : { // At 512 x 512, takes approx 100 sec, 800 x 800 = 212 sec
+    "width" : 800,
+    "height" : 800
   },
 
   "bounce_depth" : 5,
@@ -43,7 +43,7 @@
       "material" : { "ambient" : [1, 1, 1], "diffuse" : [0.8, 0.8, 0.8], "specular" : [0, 0, 0], "mirror" : [0, 0, 0], "shine" : 0 },
       "shape" : { "type" : "triangle", "vertex1" : [10, 10, 10], "vertex2" : [10, 10, -10], "vertex3" : [-10, 10, 10] }
     },
-    
+
     // Front wall //
     // {
     //   "material" : { "ambient" : [1, 1, 1], "diffuse" : [0.8, 0.8, 0.8], "specular" : [0, 0, 0], "mirror" : [0, 0, 0], "shine" : 0 },
@@ -52,8 +52,8 @@
     // {
     //   "material" : { "ambient" : [1, 1, 1], "diffuse" : [0.8, 0.8, 0.8], "specular" : [0, 0, 0], "mirror" : [0, 0, 0], "shine" : 0 },
     //   "shape" : { "type" : "triangle", "vertex1" : [10, -10, -10], "vertex2" : [10, 10, -10], "vertex3" : [-10, -10, -10] }
-    // }
-    
+    // },
+
     // Red wall //
     {
       "material" : { "ambient" : [1, 0, 0], "diffuse" : [1, 0, 0], "specular" : [0, 0, 0], "mirror" : [0.9, 0.9, 0.9], "shine" : 0 },
@@ -72,7 +72,7 @@
     {
       "material" : { "ambient" : [0, 0, 1], "diffuse" : [0, 0, 1], "specular" : [0, 0, 0], "mirror" : [0.9, 0.9, 0.9], "shine" : 0 },
       "shape" : { "type" : "triangle", "vertex1" : [10, 10, 10], "vertex2" : [10, 10, -10], "vertex3" : [10, -10, 10] }
-    }
+    },
 
     //// Stuff in the box ////
 
@@ -86,6 +86,6 @@
     {
       "material" : { "ambient" : [1, 1, 1], "diffuse" : [0, 0, 0], "specular" : [0, 0, 0], "mirror" : [0.9, 0.9, 0.9], "shine" : 0 },
       "shape" : { "type" : "sphere", "center" : [-5, -6, -5], "radius" : 4}
-    } 
+    }
   ]
 }

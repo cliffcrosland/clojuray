@@ -1,13 +1,11 @@
 # clojuray
 
-A Clojure library designed to ... well, that part is up to you.
+Ray tracer in clojure
 
 ## Usage
 
-FIXME
+lein run "./example_scenes/sphere_test_scene.json"
 
 ## License
-
-Copyright © 2012 FIXME
 
 Distributed under the Eclipse Public License, the same as Clojure.

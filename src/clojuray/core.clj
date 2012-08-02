@@ -115,12 +115,7 @@
 ;; characters on a line.
 (defn remove-line-cmnts
   [file-str]
-  (string/join
-    \newline
-    (for [line (string/split-lines file-str)]
-      (if (nil? (re-find #"^//" (string/trim line)))
-        line ; If the first two chars are //, remove line
-        ""))))
+  (string/join \newline (string/split file-str #"//.+")))
 
 ;; Parse the json scene and render it
 (defn -main
